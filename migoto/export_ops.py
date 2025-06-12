@@ -238,15 +238,15 @@ class XXMIProperties(PropertyGroup):
     """Properties for XXMITools"""
 
     destination_path: StringProperty(
-        name="Output Folder",
-        description="Output Folder:",
+        name="输出文件夹",
+        description="输出文件夹：",
         default="",
         maxlen=1024,
     )
 
     dump_path: StringProperty(
-        name="Dump Folder",
-        description="Dump Folder:",
+        name="转储文件夹",
+        description="转储文件夹：",
         default="",
         maxlen=1024,
     )
@@ -255,79 +255,79 @@ class XXMIProperties(PropertyGroup):
         options={"HIDDEN"},
     )
     use_custom_template: BoolProperty(
-        name="Use custom template",
-        description="Use a custom template file for the mod. If unchecked, the default template will be used",
+        name="使用自定义模板",
+        description="为MOD使用自定义模板文件。如果未选中，将使用默认模板",
         default=False,
     )
     template_path: StringProperty(
-        name="Template Path",
-        description="Path to the template file.",
+        name="模板路径",
+        description="模板文件的路径。",
         maxlen=1024,
     )
 
     ignore_hidden: BoolProperty(
-        name="Ignore hidden objects",
-        description="Does not use objects in the Blender window that are hidden while exporting mods",
+        name="忽略隐藏对象",
+        description="导出MOD时不使用Blender窗口中隐藏的对象",
         default=True,
     )
 
     only_selected: BoolProperty(
-        name="Only export selected",
-        description="Uses only the selected objects when deciding which meshes to export",
+        name="仅导出选中项",
+        description="决定导出哪些网格时仅使用选中的对象",
         default=False,
     )
 
     copy_textures: BoolProperty(
-        name="Mod textures",
-        description="ENABLED: Writes to the INI file and copy missing texture files to the export folder.\n"
-        + "DISABLED: The INI file will not contain entries that mod the textures. i.e. Mod uses vanilla textures.",
+        name="MOD纹理",
+        description="启用：写入INI文件并将缺失的纹理文件复制到导出文件夹。\n"
+        + "禁用：INI文件将不包含修改纹理的条目。即MOD使用原版纹理。",
         default=True,
     )
 
     no_ramps: BoolProperty(
-        name="Ignore shadow ramps/metal maps/diffuse guide",
-        description="Skips exporting shadow ramps, metal maps and diffuse guides",
+        name="忽略阴影渐变/金属贴图/漫反射引导",
+        description="跳过导出阴影渐变、金属贴图和漫反射引导",
         default=True,
     )
 
     ignore_duplicate_textures: BoolProperty(
-        name="Ignore duplicated textures",
-        description="Ignore new textures with the same hash as already copied ones",
+        name="忽略重复纹理",
+        description="忽略与已复制纹理具有相同哈希的新纹理",
         default=False,
     )
 
     credit: StringProperty(
-        name="Credit",
-        description="Name that pops up on screen when mod is loaded. If left blank, will result in no pop up",
+        name="制作者",
+        description="MOD加载时屏幕上弹出的名称。如果留空，将不会弹出",
         default="",
     )
 
     outline_optimization: BoolProperty(
-        name="Outline Optimization",
-        description="Recalculate outlines data to optimize outline shape for the game. Somewhat slow. Recommended for final export.",
+        name="轮廓优化",
+        description="重新计算轮廓数据以优化游戏的轮廓形状。略慢。建议用于最终导出。",
         default=False,
     )
     outline_rounding_precision: IntProperty(
-        name="Outline decimal rounding precision",
-        description="Higher values merge farther away vertices into a single outline vertex. Lower values produce more accurate outlines, but may result in split edges",
+        name="轮廓小数舍入精度",
+        description="较高的值会将较远的顶点合并为单个轮廓顶点。较低的值产生更精确的轮廓，但可能导致边缘分裂",
         default=4,
         min=1,
         max=10,
     )
     game: EnumProperty(
-        name="Game to mod",
-        description="Select the game you are modding to optimize the mod for that game",
+        name="要MOD的游戏",
+        description="选择您要MOD的游戏以针对该游戏优化MOD",
         items=game_enum,
         default=None,
     )
     apply_modifiers_and_shapekeys: BoolProperty(
-        name="Apply modifiers and shapekeys",
-        description="Applies shapekeys and modifiers before exporting",
+        name="应用修改器和形态键",
+        description="在导出前应用形态键和修改器",
         default=True,
     )
     normalize_weights: BoolProperty(
-        name="Normalize weights to format",
-        description="Limits weights to match export format then normalizes them.",
+        name="权重标准化为格式",
+        description="限制权重以匹配导出格式，然后标准化它们。",
         default=True,
     )
     export_shapekeys: BoolProperty(
@@ -336,18 +336,18 @@ class XXMIProperties(PropertyGroup):
         default=False,
     )
     batch_pattern: StringProperty(
-        name="Batch pattern",
-        description="Pattern to name export folders. Example: name_###",
+        name="批量模式",
+        description="命名导出文件夹的模式。例如：name_###",
         default="",
     )
     write_buffers: BoolProperty(
-        name="Write buffers",
-        description="Writes the vertex and index buffers to disk. Disabling this won't refresh the buffers in the mod folder, useful for debugging.",
+        name="写入缓冲区",
+        description="将顶点和索引缓冲区写入磁盘。禁用此选项不会刷新MOD文件夹中的缓冲区，对调试有用。",
         default=True,
     )
     write_ini: BoolProperty(
-        name="Write ini",
-        description="Writes the ini file to disk. Disabling this won't refresh the ini file in the mod folder, useful for debugging.",
+        name="写入INI",
+        description="将ini文件写入磁盘。禁用此选项不会刷新MOD文件夹中的ini文件，对调试有用。",
         default=True,
     )
 
@@ -356,7 +356,7 @@ class Export3DMigoto(Operator, ExportHelper):
     """Export a mesh for re-injection into a game with 3DMigoto"""
 
     bl_idname = "export_mesh.migoto"
-    bl_label = "Export 3DMigoto Vertex & Index Buffers"
+    bl_label = "导出3DMigoto顶点和索引缓冲区"
 
     filename_ext = ".vb0"
     filter_glob: StringProperty(
@@ -390,7 +390,7 @@ class Export3DMigotoXXMI(Operator, ExportHelper):
     """Export a mesh for re-injection into a game with 3DMigoto"""
 
     bl_idname = "export_mesh_xxmi.migoto"
-    bl_label = "Export mod folder"
+    bl_label = "导出MOD文件夹"
     bl_options = {"PRESET", "UNDO"}
 
     filename_ext = ".vb*"
@@ -472,7 +472,7 @@ class DestinationSelector(Operator, ExportHelper):
     """Export single mod based on current frame"""
 
     bl_idname = "destination.selector"
-    bl_label = "Destination"
+    bl_label = "目标位置"
     filename_ext = "."
     use_filter_folder = True
     filter_glob: StringProperty(
@@ -493,7 +493,7 @@ class DumpSelector(Operator, ExportHelper):
     """Export single mod based on current frame"""
 
     bl_idname = "dump.selector"
-    bl_label = "Dump folder selector"
+    bl_label = "转储文件夹选择器"
     filename_ext = "."
     use_filter_folder = True
     filter_glob: StringProperty(
@@ -513,7 +513,7 @@ class TemplateSelector(Operator, ExportHelper):
     """Export single mod based on current frame"""
 
     bl_idname = "template.selector"
-    bl_label = "Tempalte file selector"
+    bl_label = "模板文件选择器"
     filename_ext = ".j2"
     use_filter_folder = True
     filter_glob: StringProperty(
@@ -556,8 +556,8 @@ class ExportAdvancedOperator(Operator):
     """Export operation base class"""
 
     bl_idname = "xxmi.exportadvanced"
-    bl_label = "Export Mod"
-    bl_description = "Export mod"
+    bl_label = "导出MOD"
+    bl_description = "导出MOD"
     bl_options = {"REGISTER"}
     operations = []
 
@@ -604,8 +604,8 @@ class ExportAdvancedBatchedOperator(Operator):
     """Export operation base class"""
 
     bl_idname = "xxmi.exportadvancedbatched"
-    bl_label = "Batch export"
-    bl_description = "Exports 1 mod per frame of blender timeline as a single mod. Folder names follow the pattern specified in the batch pattern"
+    bl_label = "批量导出"
+    bl_description = "为Blender时间轴的每一帧导出一个MOD作为单个MOD。文件夹名称遵循批量模式中指定的模式"
     bl_options = {"REGISTER"}
     operations = []
 

@@ -27,10 +27,10 @@ class MIGOTO_UL_semantic_remap_list(UIList):
         if self.layout_type in {"DEFAULT", "COMPACT"}:
             layout.prop(item, "semantic_from", text="", emboss=False, icon_value=icon)
             if item.InputSlotClass == "per-instance":
-                layout.label(text="Instanced Data")
+                layout.label(text="实例化数据")
                 layout.enabled = False
             elif item.valid is False:
-                layout.label(text="INVALID")
+                layout.label(text="无效")
                 layout.enabled = False
             else:
                 layout.prop(item, "semantic_to", text="", emboss=False, icon_value=icon)
@@ -43,7 +43,7 @@ class MIGOTO_UL_semantic_remap_list(UIList):
 
 
 class MIGOTO_MT_semantic_remap_menu(Menu):
-    bl_label = "Semantic Remap Options"
+    bl_label = "语义重映射选项"
 
     def draw(self, context):
         layout = self.layout
@@ -98,7 +98,7 @@ class MIGOTO_PT_ImportFrameAnalysisRelatedFilesPanel(
 
 
 class MIGOTO_PT_ImportFrameAnalysisBufFilesPanel(MigotoImportOptionsPanelBase, Panel):
-    bl_label = "Load .buf files instead"
+    bl_label = "改为加载.buf文件"
     bl_options = {"DEFAULT_CLOSED"}
     bl_order = 2
 
@@ -132,7 +132,7 @@ class MIGOTO_PT_ImportFrameAnalysisBonePanel(MigotoImportOptionsPanelBase, Panel
 class MIGOTO_PT_ImportFrameAnalysisRemapSemanticsPanel(
     MigotoImportOptionsPanelBase, Panel
 ):
-    bl_label = "Semantic Remap"
+    bl_label = "语义重映射"
     # bl_options = {'DEFAULT_CLOSED'}
     bl_order = 4
 
@@ -160,7 +160,7 @@ class MIGOTO_PT_ImportFrameAnalysisRemapSemanticsPanel(
 class MIGOTO_PT_ImportFrameAnalysisManualOrientation(
     MigotoImportOptionsPanelBase, Panel
 ):
-    bl_label = "Orientation"
+    bl_label = "方向"
     bl_order = 5
 
     def draw(self, context):
@@ -171,7 +171,7 @@ class MIGOTO_PT_ImportFrameAnalysisManualOrientation(
 
 
 class MIGOTO_PT_ImportFrameAnalysisCleanUp(MigotoImportOptionsPanelBase, Panel):
-    bl_label = "Clean Up mesh after import"
+    bl_label = "导入后清理网格"
     bl_order = 6
 
     def draw(self, context):
@@ -183,13 +183,13 @@ class MIGOTO_PT_ImportFrameAnalysisCleanUp(MigotoImportOptionsPanelBase, Panel):
 
 
 class XXMI_PT_Sidebar(Panel):
-    """Main Panel"""
+    """主面板"""
 
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
-    bl_category = "XXMI Tools"
+    bl_category = "XXMI 工具"
     bl_idname = "XXMI_PT_Sidebar"
-    bl_label = "XXMI Tools"
+    bl_label = "XXMI 工具"
     bl_context = "objectmode"
 
     def draw_header(self, context):
@@ -237,7 +237,7 @@ class XXMISidebarOptionsPanelBase(object):
 
 
 class XXMI_PT_SidePanelExportSettings(XXMISidebarOptionsPanelBase, Panel):
-    bl_label = "Export Settings"
+    bl_label = "导出设置"
     bl_options = {"DEFAULT_CLOSED"}
     bl_order = 0
 
@@ -298,7 +298,7 @@ class XXMI_PT_SidePanelBatchExport(XXMISidebarOptionsPanelBase, Panel):
         col2 = split.column()
         if xxmi.write_buffers or xxmi.write_ini or xxmi.copy_textures:
             col1.prop(xxmi, "batch_pattern")
-            col2.operator("xxmi.exportadvancedbatched", text="Start Batch export")
+            col2.operator("xxmi.exportadvancedbatched", text="开始批量导出")
 
 
 class XXMI_PT_SidePanelExport(XXMISidebarOptionsPanelBase, Panel):
@@ -312,20 +312,20 @@ class XXMI_PT_SidePanelExport(XXMISidebarOptionsPanelBase, Panel):
         row = layout.row()
         xxmi: XXMIProperties = context.scene.xxmi
         if not xxmi.write_buffers and not xxmi.write_ini and not xxmi.copy_textures:
-            row.label(text="Nothing to export", icon="ERROR")
+            row.label(text="没有要导出的内容", icon="ERROR")
         else:
-            row.operator("xxmi.exportadvanced", text="Export Mod")
+            row.operator("xxmi.exportadvanced", text="导出MOD")
 
 
 class UpdaterPanel(Panel):
-    """Update Panel"""
+    """更新面板"""
 
-    bl_label = "Updater"
+    bl_label = "更新器"
     bl_idname = "XXMI_PT_UpdaterPanel"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
     bl_context = "objectmode"
-    bl_category = "XXMI Tools"
+    bl_category = "XXMI 工具"
     bl_order = 99
     bl_options = {"DEFAULT_CLOSED"}
 
@@ -342,7 +342,7 @@ class UpdaterPanel(Panel):
         col.scale_y = 0.7
         # Could also use your own custom drawing based on shared variables.
         if addon_updater_ops.updater.update_ready:
-            layout.label(text="There's a new update available!", icon="INFO")
+            layout.label(text="有新的更新可用！", icon="INFO")
 
         # Call built-in function with draw code/checks.
         addon_updater_ops.update_notice_box_ui(self, context)
@@ -352,34 +352,34 @@ class UpdaterPanel(Panel):
 def menu_func_import_fa(self, context):
     self.layout.operator(
         Import3DMigotoFrameAnalysis.bl_idname,
-        text="3DMigoto frame analysis dump (vb.txt + ib.txt)",
+        text="3DMigoto 帧分析转储 (vb.txt + ib.txt)",
     )
 
 
 def menu_func_import_raw(self, context):
     self.layout.operator(
-        Import3DMigotoRaw.bl_idname, text="3DMigoto raw buffers (.vb + .ib)"
+        Import3DMigotoRaw.bl_idname, text="3DMigoto 原始缓冲区 (.vb + .ib)"
     )
 
 
 def menu_func_import_pose(self, context):
-    self.layout.operator(Import3DMigotoPose.bl_idname, text="3DMigoto pose (.txt)")
+    self.layout.operator(Import3DMigotoPose.bl_idname, text="3DMigoto 姿态 (.txt)")
 
 
 def menu_func_export(self, context):
     self.layout.operator(
-        Export3DMigoto.bl_idname, text="3DMigoto raw buffers (.vb + .ib)"
+        Export3DMigoto.bl_idname, text="3DMigoto 原始缓冲区 (.vb + .ib)"
     )
 
 
 def menu_func_export_xxmi(self, context):
-    self.layout.operator(Export3DMigotoXXMI.bl_idname, text="Exports Mod Folder")
+    self.layout.operator(Export3DMigotoXXMI.bl_idname, text="导出MOD文件夹")
 
 
 def menu_func_apply_vgmap(self, context):
     self.layout.operator(
         ApplyVGMap.bl_idname,
-        text="Apply 3DMigoto vertex group map to current object (.vgmap)",
+        text="应用3DMigoto顶点组映射到当前对象 (.vgmap)",
     )
 
 

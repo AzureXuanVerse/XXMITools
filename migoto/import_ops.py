@@ -728,15 +728,15 @@ semantic_remap_enum = [
 
 
 class SemanticRemapItem(PropertyGroup):
-    semantic_from: bpy.props.StringProperty(name="From", default="ATTRIBUTE")
+    semantic_from: bpy.props.StringProperty(name="来源", default="ATTRIBUTE")
     semantic_to: bpy.props.EnumProperty(
-        items=semantic_remap_enum, name="Change semantic interpretation"
+        items=semantic_remap_enum, name="更改语义解释"
     )
     # Extra information when this is filled out automatically that might help guess the correct semantic:
-    Format: bpy.props.StringProperty(name="DXGI Format")
-    InputSlot: bpy.props.IntProperty(name="Vertex Buffer")
-    InputSlotClass: bpy.props.StringProperty(name="Input Slot Class")
-    AlignedByteOffset: bpy.props.IntProperty(name="Aligned Byte Offset")
+    Format: bpy.props.StringProperty(name="DXGI格式")
+    InputSlot: bpy.props.IntProperty(name="顶点缓冲区")
+    InputSlotClass: bpy.props.StringProperty(name="输入槽类别")
+    AlignedByteOffset: bpy.props.IntProperty(name="对齐字节偏移")
     valid: bpy.props.BoolProperty(default=True)
     tooltip: bpy.props.StringProperty(
         default="This is a manually added entry. It's recommended to pre-fill semantics from selected files via the menu to the right to avoid typos"
@@ -758,7 +758,7 @@ class ClearSemanticRemapList(Operator):
     """Clear the semantic remap list"""
 
     bl_idname = "import_mesh.migoto_semantic_remap_clear"
-    bl_label = "Clear list"
+    bl_label = "清空列表"
 
     def execute(self, context):
         import_operator = context.space_data.active_operator
@@ -770,7 +770,7 @@ class PrefillSemanticRemapList(Operator):
     """Add semantics from the selected files to the semantic remap list"""
 
     bl_idname = "import_mesh.migoto_semantic_remap_prefill"
-    bl_label = "Prefill from selected files"
+    bl_label = "从选定文件预填充"
 
     def execute(self, context):
         import_operator = context.space_data.active_operator
@@ -803,7 +803,7 @@ class Import3DMigotoFrameAnalysis(Operator, ImportHelper, IOOBJOrientationHelper
     """Import a mesh dumped with 3DMigoto's frame analysis"""
 
     bl_idname = "import_mesh.migoto_frame_analysis"
-    bl_label = "Import 3DMigoto Frame Analysis Dump"
+    bl_label = "导入3DMigoto帧分析转储"
     bl_options = {"PRESET", "UNDO"}
 
     filename_ext = ".txt"
@@ -818,99 +818,99 @@ class Import3DMigotoFrameAnalysis(Operator, ImportHelper, IOOBJOrientationHelper
     )
 
     flip_texcoord_v: BoolProperty(
-        name="Flip TEXCOORD V",
-        description="Flip TEXCOORD V asix during importing",
+        name="翻转纹理坐标V",
+        description="导入时翻转纹理坐标V轴",
         default=True,
     )
 
     flip_winding: BoolProperty(
-        name="Flip Winding Order",
-        description="Flip winding order (face orientation) during importing. Try if the model doesn't seem to be shading as expected in Blender and enabling the 'Face Orientation' overlay shows **RED** (if it shows BLUE, try 'Flip Normal' instead). Not quite the same as flipping normals within Blender as this only reverses the winding order without flipping the normals. Recommended for Unreal Engine",
+        name='翻转绕序',
+        description="导入时翻转绕序（面朝向）。如果模型在Blender中的着色效果不如预期，启用'面朝向'叠加显示**红色**（如果显示蓝色，请尝试'翻转法线'）。这与在Blender中翻转法线不完全相同，因为这只是反转绕序而不翻转法线。推荐用于虚幻引擎",
         default=False,
     )
 
     flip_mesh: BoolProperty(
-        name="Flip Mesh",
-        description="Mirrors mesh over the X Axis on import, and invert the winding order.",
+        name="翻转网格",
+        description="导入时在X轴上镜像网格，并反转绕序。",
         default=False,
     )
 
     flip_normal: BoolProperty(
-        name="Flip Normal",
-        description="Flip Normals during importing. Try if the model doesn't seem to be shading as expected in Blender and enabling 'Face Orientation' overlay shows **BLUE** (if it shows RED, try 'Flip Winding Order' instead). Not quite the same as flipping normals within Blender as this won't reverse the winding order",
+        name='翻转法线',
+        description="导入时翻转法线。如果模型在Blender中的着色效果不如预期，启用'面朝向'叠加显示**蓝色**（如果显示红色，请尝试'翻转绕序'）。这与在Blender中翻转法线不完全相同，因为这不会反转绕序",
         default=False,
     )
 
     load_related: BoolProperty(
-        name="Auto-load related meshes",
-        description="Automatically load related meshes found in the frame analysis dump",
+        name="自动加载相关网格",
+        description="自动加载在帧分析转储中找到的相关网格",
         default=True,
     )
 
     load_related_so_vb: BoolProperty(
-        name="Load pre-SO buffers (EXPERIMENTAL)",
-        description="Scans the frame analysis log file to find GPU pre-skinning Stream Output techniques in prior draw calls, and loads the unposed vertex buffers from those calls that are suitable for editing. Recommended for Unity games to load neutral poses",
+        name="加载SO前缓冲区（实验性）",
+        description="扫描帧分析日志文件以查找先前绘制调用中的GPU预蒙皮流输出技术，并加载那些适合编辑的未姿态顶点缓冲区。推荐用于Unity游戏以加载中性姿态",
         default=False,
     )
 
     load_buf: BoolProperty(
-        name="Load .buf files instead",
-        description="Load the mesh from the binary .buf dumps instead of the .txt files\nThis will load the entire mesh as a single object instead of separate objects from each draw call",
+        name="改为加载.buf文件",
+        description="从二进制.buf转储加载网格，而不是从.txt文件\n这将将整个网格加载为单个对象，而不是每个绘制调用的单独对象",
         default=False,
     )
 
     load_buf_limit_range: BoolProperty(
-        name="Limit to draw range",
-        description="Load just the vertices/indices used in the draw call (equivalent to loading the .txt files) instead of the complete buffer",
+        name="限制到绘制范围",
+        description="仅加载绘制调用中使用的顶点/索引（相当于加载.txt文件），而不是完整缓冲区",
         default=False,
     )
 
     merge_meshes: BoolProperty(
-        name="Merge meshes together",
-        description="Merge all selected meshes together into one object. Meshes must be related",
+        name="合并网格",
+        description="将所有选定的网格合并为一个对象。网格必须相关",
         default=False,
     )
 
     pose_cb: StringProperty(
-        name="Bone CB",
-        description='Indicate a constant buffer slot (e.g. "vs-cb2") containing the bone matrices',
+        name="骨骼常量缓冲区",
+        description='指示包含骨骼矩阵的常量缓冲区槽（例如"vs-cb2"）',
         default="",
     )
 
     pose_cb_off: bpy.props.IntVectorProperty(
-        name="Bone CB range",
-        description="Indicate start and end offsets (in multiples of 4 component values) to find the matrices in the Bone CB",
+        name="骨骼CB范围",
+        description="指示在骨骼CB中查找矩阵的开始和结束偏移量（以4个组件值的倍数为单位）",
         default=[0, 0],
         size=2,
         min=0,
     )
 
     pose_cb_step: bpy.props.IntProperty(
-        name="Vertex group step",
-        description="If used vertex groups are 0,1,2,3,etc specify 1. If they are 0,3,6,9,12,etc specify 3",
+        name="顶点组步长",
+        description="如果使用的顶点组是0,1,2,3等，指定1。如果是0,3,6,9,12等，指定3",
         default=1,
         min=1,
     )
 
     semantic_remap: bpy.props.CollectionProperty(type=SemanticRemapItem)
     semantic_remap_idx: bpy.props.IntProperty(
-        name="Semantic Remap",
-        description="Enter the SemanticName and SemanticIndex the game is using on the left (e.g. TEXCOORD3), and what type of semantic the script should treat it as on the right",
+        name="语义重映射",
+        description="在左侧输入游戏使用的语义名称和语义索引（例如TEXCOORD3），在右侧输入脚本应将其视为何种语义类型",
     )  # Needed for template_list
 
     merge_verts: BoolProperty(
-        name="Merge Vertices",
-        description="Merge by distance to remove duplicate vertices",
+        name="合并顶点",
+        description="按距离合并以移除重复顶点",
         default=False,
     )
     tris_to_quads: BoolProperty(
-        name="Tris to Quads",
-        description="Convert all tris to quads",
+        name="三角面转四边面",
+        description="将所有三角面转换为四边面",
         default=False,
     )
     clean_loose: BoolProperty(
-        name="Clean Loose",
-        description="Remove loose geometry",
+        name="清理松散几何体",
+        description="移除松散几何体",
         default=False,
     )
 
@@ -1123,7 +1123,7 @@ class Import3DMigotoRaw(Operator, ImportHelper, IOOBJOrientationHelper):
     """Import raw 3DMigoto vertex and index buffers"""
 
     bl_idname = "import_mesh.migoto_raw_buffers"
-    bl_label = "Import 3DMigoto Raw Buffers"
+    bl_label = "导入3DMigoto原始缓冲区"
     # bl_options = {'PRESET', 'UNDO'}
     bl_options = {"UNDO"}
 
@@ -1139,20 +1139,20 @@ class Import3DMigotoRaw(Operator, ImportHelper, IOOBJOrientationHelper):
     )
 
     flip_texcoord_v: BoolProperty(
-        name="Flip TEXCOORD V",
-        description="Flip TEXCOORD V axis during importing",
+        name="翻转纹理坐标V",
+        description="导入时翻转纹理坐标V轴",
         default=True,
     )
 
     flip_winding: BoolProperty(
-        name="Flip Winding Order",
-        description="Flip winding order (face orientation) during importing. Try if the model doesn't seem to be shading as expected in Blender and enabling the 'Face Orientation' overlay shows **RED** (if it shows BLUE, try 'Flip Normal' instead). Not quite the same as flipping normals within Blender as this only reverses the winding order without flipping the normals. Recommended for Unreal Engine",
+        name='翻转绕序',
+        description="导入时翻转绕序（面朝向）。如果模型在Blender中的着色效果不如预期，启用'面朝向'叠加显示**红色**（如果显示蓝色，请尝试'翻转法线'）。这与在Blender中翻转法线不完全相同，因为这只是反转绕序而不翻转法线。推荐用于虚幻引擎",
         default=False,
     )
 
     flip_normal: BoolProperty(
-        name="Flip Normal",
-        description="Flip Normals during importing. Try if the model doesn't seem to be shading as expected in Blender and enabling 'Face Orientation' overlay shows **BLUE** (if it shows RED, try 'Flip Winding Order' instead). Not quite the same as flipping normals within Blender as this won't reverse the winding order",
+        name='翻转法线',
+        description="导入时翻转法线。如果模型在Blender中的着色效果不如预期，启用'面朝向'叠加显示**蓝色**（如果显示红色，请尝试'翻转绕序'）。这与在Blender中翻转法线不完全相同，因为这不会反转绕序",
         default=False,
     )
 
@@ -1215,7 +1215,7 @@ class Import3DMigotoRaw(Operator, ImportHelper, IOOBJOrientationHelper):
 
 class Import3DMigotoReferenceInputFormat(Operator, ImportHelper):
     bl_idname = "import_mesh.migoto_input_format"
-    bl_label = "Select a .txt file with matching format"
+    bl_label = "选择格式匹配的.txt文件"
     bl_options = {"UNDO", "INTERNAL"}
 
     filename_ext = ".txt;.fmt"
